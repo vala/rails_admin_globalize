@@ -35,6 +35,7 @@ Add globalize to the list of actions in rails_admin's initializer:
 ```
 
 # At this point:
+  - [New] Allow custom field type by calling your custom field :custom_MyCustomField
   - a translation Action appear in rails_admin near the edit button .
   - the configuration for the field was ereditated from edit action configuration .
   - has_many and has_one fields of translated models is included in the translations form .
