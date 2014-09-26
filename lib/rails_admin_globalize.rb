@@ -31,13 +31,20 @@ module RailsAdmin
           true
         end
 
+        register_instance_option :translate_associated_resources do
+          false
+        end
+
         register_instance_option :http_methods do
           [:get, :put, :patch]
         end
 
         register_instance_option :controller do
+          translate_associated_resources = self.translate_associated_resources
 
           Proc.new do
+            @translate_associated_resources = translate_associated_resources
+
             @available_locales = (I18n.available_locales - [I18n.locale])
             @available_locales = @object.available_locales if @object.respond_to?("available_locales")
 
