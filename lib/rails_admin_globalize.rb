@@ -56,8 +56,9 @@ module RailsAdmin
               I18n.locale = @target_locale = params[:target_locale]
               param_key = @abstract_model.param_key
 
+              translatable_columns = param_key.classify.constantize.translated_attribute_names
+              params[param_key].permit *translatable_columns
               satisfy_strong_params!
-              params[param_key].permit!
 
               @object.set_attributes params[param_key]
               @authorization_adapter && @authorization_adapter.attributes_for(:update, @abstract_model).each do |name, value|
