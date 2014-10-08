@@ -58,7 +58,11 @@ module RailsAdmin
               satisfy_strong_params!
               sanitize_params_for!(:update)
 
-              @object.set_attributes(params[@abstract_model.param_key])
+              param_key = @abstract_model.param_key
+              translatable_columns = param_key.classify.constantize.translated_attribute_names
+              attributes = params[param_key].extract!(translatable_columns)
+
+              @object.set_attributes(attributes)
               @authorization_adapter && @authorization_adapter.attributes_for(:update, @abstract_model).each do |name, value|
                 @object.send("#{name}=", value)
               end
