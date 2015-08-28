@@ -3,7 +3,7 @@
 
 .control-group{:class=>("#{field.css_class} #{field.type}_type #{'error' if in_error}")}
   .controls{:class => field.type.eql?('text') ? 'well' : ''}
-    - if field.type.in?(:ckeditor, :codemirror, :rich, :text)
+    - if field.type.in?([:ckeditor, :codemirror, :rich, :text])
       :ruby
         if field.type == :ckeditor
           richtext = 'ckeditor'
