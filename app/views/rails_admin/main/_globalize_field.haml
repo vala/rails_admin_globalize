@@ -3,9 +3,9 @@
 
 .control-group{:class=>("#{field.css_class} #{field.type}_type #{'error' if in_error}")}
   .controls{:class => field.type.eql?('text') ? 'well' : ''}
-    - if field.type == :text
+    - if field.type.in?(:ckeditor, :codemirror, :rich, :text)
       :ruby
-        if field.ckeditor
+        if field.type == :ckeditor
           richtext = 'ckeditor'
           js_data = {
             :jspath => field.ckeditor_location ? field.ckeditor_location : field.ckeditor_base_location + "ckeditor.js",
@@ -14,7 +14,7 @@
               :customConfig => field.ckeditor_config_js ? field.ckeditor_config_js : field.ckeditor_base_location + "config.js"
             }
           }
-        elsif field.codemirror
+        elsif field.type == :codemirror
           richtext = 'codemirror'
           js_data = {
             :csspath => field.codemirror_css_location,
@@ -22,14 +22,14 @@
             :options => field.codemirror_config,
             :locations => field.codemirror_assets
           }
-        elsif field.bootstrap_wysihtml5
+        elsif field.type == :bootstrap_wysihtml5
           richtext = 'bootstrap-wysihtml5'
           js_data = {
             :csspath => field.bootstrap_wysihtml5_css_location,
             :jspath => field.bootstrap_wysihtml5_js_location,
             :config_options => field.bootstrap_wysihtml5_config_options.to_json
           }
-        elsif field.respond_to?(:rich) && field.rich
+        elsif field.type == :rich
           richtext = 'rich'
         else
           richtext = false
@@ -44,7 +44,7 @@
     - elsif field.type == :carrierwave || field.type == :jcrop
       = render :partial => "file_upload", :locals => { form: form, field: field } #if false
       =# link_to("EDIT", rails_admin.edit_path(object.class.to_s.gsub("::","~").underscore,object.id), :target=>"_blank")
-      
+
     - elsif field.type =~ /custom_.+/
       - partial_name = field.type.to_s.split('custom_').last
       = render :partial => "rails_admin/main/form_#{partial_name}", :locals => { form: form, field: field }
