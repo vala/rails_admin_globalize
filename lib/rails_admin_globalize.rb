@@ -56,7 +56,7 @@ module RailsAdmin
               I18n.locale = @target_locale = params[:target_locale]
               param_key = @abstract_model.param_key
 
-              translatable_columns = param_key.classify.constantize.translated_attribute_names
+              translatable_columns = @object.class.translated_attribute_names
               params[param_key].permit *translatable_columns
               satisfy_strong_params!
 
