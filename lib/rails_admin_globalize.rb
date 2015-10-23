@@ -57,8 +57,7 @@ module RailsAdmin
               param_key = @abstract_model.param_key
 
               translatable_columns = @object.class.translated_attribute_names
-              params[param_key].permit *translatable_columns
-              satisfy_strong_params!
+              params[param_key].permit!
 
               @object.set_attributes params[param_key]
               @authorization_adapter && @authorization_adapter.attributes_for(:update, @abstract_model).each do |name, value|
